@@ -1,0 +1,9 @@
+<div class="container">
+<h3> <%=@user_to_view.name%>'s Posts </h3>
+<ul>
+  <%@posts.each do |post|%>
+  <li><a href="/post/<%=post.id%>"><%=post.title%></a></li>
+  <%end%>
+</ul>
+
+</div>

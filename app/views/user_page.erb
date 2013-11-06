@@ -1,0 +1,10 @@
+<div class="container">
+<h3> <%=@user_to_view.name%>'s Profile </h3>
+<ul>
+  <li>User Name: <%= @user_to_view.name %> </li>
+  <li>User Email: <%= @user_to_view.email %> </li>
+</ul>
+<p> <a href="/user/<%= @user_to_view.id.to_s %>/posts"> Posts by <%= @user_to_view.name %> </a></p>
+<p> <a href="/user/<%= @user_to_view.id.to_s %>/comments"> Comments by <%= @user_to_view.name %> </a></p>
+
+</div>

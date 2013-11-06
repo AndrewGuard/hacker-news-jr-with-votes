@@ -1,0 +1,19 @@
+<div class="container">
+  <h3> <a href="<%= @post.link_text %>"> <%= @post.title %></a> </h3>
+
+  <h4>Comment on this Post</h4>
+  <form action="/post/<%=@post.id%>/comment/new" method="POST">
+    <textarea rows="4" cols="50" name="comment_text"></textarea>
+    <br>
+    <input type="submit" value="Comment!">
+  </form>
+  <h4>Comments</h4>
+
+    <%@comments.each do |comment|%>
+    <p>Poster: <%=comment.user.name%></p>
+    <p class="indented">Comment:  <%=comment.text%></p>
+    <br>
+    <%end%>
+
+
+</div>

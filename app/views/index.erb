@@ -1,0 +1,14 @@
+<div class="container">
+  <h1>Welcome to HackerNews Junior!</h1>
+  <p>Version 2.0</p>
+
+  <% if @posts %>
+    <ul class="post-list">
+      <% @posts.each do |post| %>
+        <li><a href="/post/<%=  post.id %>"> <%= post.title %> </a></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+
+</div>
