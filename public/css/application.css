@@ -30,4 +30,9 @@ th {
 
 .indented {
   padding-left: 10px;
+  margin-top: 0px;
+}
+
+.float-left {
+  float: left;
 }

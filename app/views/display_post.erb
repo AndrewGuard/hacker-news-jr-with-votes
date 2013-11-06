@@ -1,19 +1,41 @@
 <div class="container">
   <h3> <a href="<%= @post.link_text %>"> <%= @post.title %></a> </h3>
+  <p id="post-points">Points: <%=@post.getPoints%></p>
+  <div style="clear:both;"/>
+    <form action="/post/<%=@post.id%>/upvote" method="POST" class="float-left upvote-post"> <!--May need to update to use AJAX-->
+      <input type="submit" value="Upvote">
+    </form>
 
-  <h4>Comment on this Post</h4>
-  <form action="/post/<%=@post.id%>/comment/new" method="POST">
-    <textarea rows="4" cols="50" name="comment_text"></textarea>
-    <br>
-    <input type="submit" value="Comment!">
-  </form>
-  <h4>Comments</h4>
+    <form action="/post/<%=@post.id%>/downvote" method="POST" class="float-left indented downvote-post"> <!--May need to update to use AJAX-->
+      <input type="submit" value="Downvote">
+    </form>
+    <div style="clear:both;"/>
+      <br>
+      <h4>Comment on this Post</h4>
+      <form action="/post/<%=@post.id%>/comment/new" method="POST">
+        <textarea rows="4" cols="50" name="comment_text"></textarea>
+        <br>
+        <input type="submit" value="Comment!">
+      </form>
+      <h4>Comments</h4>
 
-    <%@comments.each do |comment|%>
-    <p>Poster: <%=comment.user.name%></p>
-    <p class="indented">Comment:  <%=comment.text%></p>
-    <br>
-    <%end%>
+      <%@comments.each do |comment|%>
+      <p>Poster: <%=comment.user.name%></p>
+        <p class="indented comment-points" id="comment-points-<%=comment.id%>">Points: <%=comment.getPoints%></p>
+
+        <form action="/post/<%=@post.id%>/comment/<%=comment.id%>/upvote" method="POST" class="float-left indented comment-upvote-form"> <!--May need to update to use AJAX-->
+          <input type="submit" value="Upvote" class="upvote-comment" data-comment-upvote="<%=comment.id%>">
+           <input class="comment-id-target" type="hidden" value="<%=comment.id%>">
+        </form>
+
+        <form action="/post/<%=@post.id%>/comment/<%=comment.id%>/downvote" method="POST" class="float-left indented comment-downvote-form"> <!--May need to update to use AJAX-->
+          <input type="submit" value="Downvote" class="downvote-comment" data-comment-downvote="<%=comment.id%>">
+          <input class="comment-id-target" type="hidden" value="<%=comment.id%>">
+        </form>
+        <div style="clear:both;"/>
+
+        <p class="indented">Comment:  <%=comment.text%></p>
+        <%end%>
 
 
-</div>
+      </div>

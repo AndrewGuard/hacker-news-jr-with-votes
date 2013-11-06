@@ -1,4 +1,7 @@
 enable :sessions
+
+#has_not_voted = PostVote.where("user_id = ? AND post_id = ?", session[:user_id], @post.id).count == 0
+
 #  GET ===================================
 
 get '/' do
@@ -116,6 +119,83 @@ post '/post/:id/comment/new' do
   redirect to "/post/#{@post.id}"
 end
 
+# May need to update for AJAX
+post '/post/:id/upvote' do
+  @current_user = User.find(session[:user_id])
+  @post = Post.find(params[:id])
+
+  has_not_voted = PostVote.where("user_id = ? AND post_id = ?", session[:user_id], @post.id).length == 0
+  puts "NUM VOTES IS: #{PostVote.where("user_id = ? AND post_id = ?", session[:user_id], @post.id).length}"
+  puts "HAS NOTE VOTED IS: #{has_not_voted}"
+  if has_not_voted
+    upvote = PostVote.create(:is_upvote => true)
+    @post.post_votes << upvote
+    @post.save
+
+    @current_user.post_votes << upvote
+    @current_user.save
+  end
+
+  redirect to "/post/#{params[:id]}"
+end
+
+# May need to update for AJAX
+post '/post/:id/downvote' do
+  @current_user = User.find(session[:user_id])
+  @post = Post.find(params[:id])
+
+  has_not_voted = PostVote.where("user_id = ? AND post_id = ?", session[:user_id], @post.id).length == 0
+  puts "NUM VOTES IS: #{PostVote.where("user_id = ? AND post_id = ?", session[:user_id], @post.id).length}"
+  puts "HAS NOTE VOTED IS: #{has_not_voted}"
+  if has_not_voted
+    downvote = PostVote.create(:is_upvote => false)
+    @post.post_votes << downvote
+    @post.save
+
+    @current_user.post_votes << downvote
+    @current_user.save
+  end
+
+  redirect to "/post/#{params[:id]}"
+end
+
+# May need to update for AJAX
+post '/post/:post_id/comment/:comment_id/upvote' do
+  @current_user = User.find(session[:user_id])
+  @comment = Comment.find(params[:comment_id])
+
+  has_not_voted = CommentVote.where("user_id = ? AND comment_id = ?", session[:user_id], @comment.id).length == 0
+
+  if has_not_voted
+    upvote = CommentVote.create(:is_upvote => true)
+    @comment.comment_votes << upvote
+    @comment.save
+
+    @current_user.comment_votes << upvote
+    @current_user.save
+  end
+
+  redirect to "/post/#{params[:post_id]}"
+end
+
+# May need to update for AJAX
+post '/post/:post_id/comment/:comment_id/downvote' do
+  @current_user = User.find(session[:user_id])
+  @comment = Comment.find(params[:comment_id])
+
+  has_not_voted = CommentVote.where("user_id = ? AND comment_id = ?", session[:user_id], @comment.id).length == 0
+
+  if has_not_voted
+    downvote = CommentVote.create(:is_upvote => false)
+    @comment.comment_votes << downvote
+    @comment.save
+
+    @current_user.comment_votes << downvote
+    @current_user.save
+  end
+
+  redirect to "/post/#{params[:post_id]}"
+end
 
 
 
